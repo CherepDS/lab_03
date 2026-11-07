@@ -3,7 +3,7 @@ from classrooms.models import Classroom
 from classrooms.catalog import Catalog
 from classrooms.exceptions import DuplicateIdError, NotFoundError, InvalidEntityError, CorruptedFileError, UnsupportedVersionError
 
-
+# Создание допустимой сущности
 def test_create_valid_classroom():
     room = Classroom(
         id = "1",
@@ -17,6 +17,7 @@ def test_create_valid_classroom():
     assert room.id == "1"
     assert room.name == "IT-1"
 
+# Создание недопустимой сущности
 def test_create_invalid_classroom():
     with pytest.raises(InvalidEntityError):  # или ваш InvalidEntityError
         Classroom(
@@ -28,6 +29,7 @@ def test_create_invalid_classroom():
             number_of_seats=45
         )
 
+# Добавление и получение данных
 def test_add_and_get():
     catalog = Catalog()
     room = Classroom("1", "IT-1", "seminars", 2023, 80, 45)
@@ -36,6 +38,7 @@ def test_add_and_get():
     assert len(catalog) == 1
     assert catalog.get("1") is room
 
+# Удаление сущности из каталога
 def test_remove():
     catalog = Catalog()
     room = Classroom("1", "IT-1", "seminars", 2023, 80, 45)
@@ -44,7 +47,7 @@ def test_remove():
 
     assert len(catalog) == 0
 
-
+# Добавление сущностей с одинаковым id (недопустимо)
 def test_duplicate_id():
     catalog = Catalog()
     room = Classroom("1", "IT-1", "seminars", 2023, 80, 45)
@@ -54,7 +57,7 @@ def test_duplicate_id():
         room = Classroom("1", "IT-2", "seminars", 2020, 100, 60)
         catalog.add(room)
 
-
+# Поиск сущностей по категории
 def test_find_by_category_and_name():
     catalog = Catalog()
     catalog.add(Classroom("1", "IT-1", "lectures", 2017, 120, 280))
@@ -67,6 +70,7 @@ def test_find_by_category_and_name():
     result = catalog.find_by_name("it-1")
     assert len(result) == 2
 
+# Порядок итерации объекта каталога
 def test_iteration_order():
     catalog = Catalog()
     catalog.add(Classroom("1", "IT-1", "lectures", 2017, 120, 280))
@@ -76,6 +80,7 @@ def test_iteration_order():
     ids = [room.id for room in catalog]
     assert ids == sorted(ids)
 
+# Сохранение и загрузка данных
 def test_json_round_trip(tmp_path):
     catalog = Catalog()
     room = Classroom("2", "it-1", "seminars", 2019, 80, 240)
@@ -92,6 +97,7 @@ def test_json_round_trip(tmp_path):
     assert loaded.name == room.name
     assert loaded.area == room.area
 
+# Поврежденный json + неизвестная версия конфига
 def test_corrupted_json_and_unknown_version(tmp_path):
     catalog = Catalog()
     catalog.add(Classroom("2", "it-1", "seminars", 2019, 80, 240))
@@ -106,6 +112,7 @@ def test_corrupted_json_and_unknown_version(tmp_path):
     with pytest.raises(UnsupportedVersionError):
         catalog.load(version_path)
 
+# Проверка отсутствия частичного изменения после ошибки загрузки
 def test_atomic_load(tmp_path):
     catalog = Catalog()
     original = Classroom("1", "it-1", "seminars", 2019, 80, 240)

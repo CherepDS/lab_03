@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from classrooms.exceptions import InvalidEntityError
 
+# Класс сущностей (аудиторий)
 @dataclass
 class Classroom:
+    # Обязательные параметры
     id: str
     name: str
     category: str
@@ -10,6 +12,7 @@ class Classroom:
     area: int
     number_of_seats: int
 
+    # Проверка инвариантов
     def __post_init__(self):
         if not self.id or not self.id.strip():
             raise InvalidEntityError("ID не может быть пустым!")
