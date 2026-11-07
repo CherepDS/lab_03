@@ -31,3 +31,10 @@ class Classroom:
 
         if self.number_of_seats < 0:
             raise InvalidEntityError("Количество мест не может быть отрицательным!")
+
+    def get_log(self) -> str:
+        return (
+            f"Create {self.__class__.__name__} object: "
+            f"id={self.id}, name={self.name}, category={self.category}, "
+            f"year={self.year}, area={self.area}, seats={self.number_of_seats}"
+        )

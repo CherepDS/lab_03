@@ -1,0 +1,29 @@
+{
+  "format_version": 1,
+  "items": [
+    {
+      "id": "А-101",
+      "name": "Лекционная",
+      "category": "лекционная",
+      "year": 2015,
+      "area": 80,
+      "number_of_seats": 1
+    },
+    {
+      "id": "Б-202",
+      "name": "Компьютерный класс",
+      "category": "лабораторная",
+      "year": 2018,
+      "area": 25,
+      "number_of_seats": 2
+    },
+    {
+      "id": "А-103",
+      "name": "Семинарская",
+      "category": "семинарская",
+      "year": 2020,
+      "area": 30,
+      "number_of_seats": 1
+    }
+  ]
+}
